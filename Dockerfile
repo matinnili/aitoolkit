@@ -21,7 +21,7 @@ COPY . .
 
 # Ensure the requested config path resolves:
 # Copy the example config to the expected location/name (no extension needed on CLI)
-RUN cp /app/config/examples/train_lora_flux_24gb.yaml /app/config/train_lora_flux_24gb.yaml
+
 
 # Default command
-CMD ["python", "run.py", "config/train_lora_flux_24gb"]
+CMD ["python", "run.py", "config/examples/train_lora_flux_24gb"]
