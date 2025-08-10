@@ -1,21 +1,10 @@
-version: "3.8"
+version: "3.9"
 
 services:
-  ai-toolkit:
-    image: ostris/aitoolkit:latest
-    restart: unless-stopped
-    ports:
-      - "8675:8675"
-    volumes:
-      - ~/.cache/huggingface/hub:/root/.cache/huggingface/hub
-      - ./aitk_db.db:/app/ai-toolkit/aitk_db.db
-      - ./datasets:/app/ai-toolkit/datasets
-      - ./output:/app/ai-toolkit/output
-      - ./config:/app/ai-toolkit/config
-    environment:
-      - AI_TOOLKIT_AUTH=${AI_TOOLKIT_AUTH:-password}
-      - NODE_ENV=production
-      - TZ=UTC
+  flux_app:
+    build: .
+    container_name: flux_container
+    # Enable GPU access (requires Docker >= 19.03 and NVIDIA Container Toolkit)
     deploy:
       resources:
         reservations:
@@ -23,3 +12,14 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    environment:
+      HF_TOKEN: ${HF_TOKEN}  # Will be read from your local .env file or shell
+    volumes:
+      - ./output:/app/output  
+      - ~/.cache/huggingface/hub:/root/.cache/huggingface/hub
+      - ./config:/app/config
+    command: ["python", "run.py", "./config/examples/train_lora_flux_24gb.yaml", "--log", "./flux.log"]
+
+
+
+ 
