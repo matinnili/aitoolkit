@@ -72,7 +72,7 @@ def main():
     parser.add_argument(
         '-l', '--log',
         type=str,
-        default=None,
+        default="./flux.log",
         help='Log file to write output to'
     )
     args = parser.parse_args()
