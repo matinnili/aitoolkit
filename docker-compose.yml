@@ -13,10 +13,10 @@ services:
               count: all
               capabilities: [gpu]
     environment:
-      HF_TOKEN: ${HF_TOKEN}  # Will be read from your local .env file or shell
+      HF_TOKEN: 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   # Will be read from your local .env file or shell
     volumes:
       - ./output:/app/output  
-      - ~/.cache/huggingface/hub:/root/.cache/huggingface/hub
+
       - ./config:/app/config
     command: ["python", "run.py", "./config/examples/train_lora_flux_24gb.yaml", "--log", "./flux.log"]
 
