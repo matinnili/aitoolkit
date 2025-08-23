@@ -1,24 +1,22 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  flux_app:
-    build: .
-    container_name: flux_container
-    # Enable GPU access (requires Docker >= 19.03 and NVIDIA Container Toolkit)
+  ai-toolkit:
+    image: ostris/aitoolkit:latest
+    restart: unless-stopped
+    ports:
+      - "8675:8675"
+
+    environment:
+
+      - NODE_ENV=production
+      - TZ=UTC
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               count: all
-              capabilities: [gpu]
-    environment:
-      HF_TOKEN: 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   # Will be read from your local .env file or shell
-    volumes:
-      - ./output:/app/output  
-
-      - ./config:/app/config
-    command: ["python", "run.py", "./config/examples/train_lora_flux_24gb.yaml", "--log", "./flux.log"]
 
 
 
